@@ -4,12 +4,18 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 // fake data generator
 const getItems = (count) => Array.from({length: count}, (v, k) => k).map(k => ({
   id: `item-${k}`,
-  content: `item ${k}`
+  content: `item ${k}`,
+  index: k
 }));
 
 // a little function to help us with reordering the result
 const reorder =  (list, startIndex, endIndex) => {
   const result = Array.from(list);
+
+  // set the new pos on the item
+  result[startIndex].index = endIndex
+  result[endIndex].index = startIndex
+
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
@@ -52,6 +58,8 @@ class App extends Component {
        return; 
     }
 
+    console.log(result)
+
     const items = reorder(
       this.state.items, 
       result.source.index, 
@@ -77,7 +85,7 @@ class App extends Component {
                 <Draggable
                   key={item.id}
                   draggableId={item.id}
-                  index={index}
+                  index={item.index}
                 >
                   {(provided, snapshot) => (
                     <div>
