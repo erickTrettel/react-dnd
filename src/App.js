@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 // fake data generator
-const getItems = (count) => Array.from({ length: count }, (v, k) => k).map(k => ({
+const getItems = count => Array.from({ length: count }, (v, k) => k).map(k => ({
 	id: `item-${k}`,
 	content: `item ${k}`,
 	index: k
 }));
 
+// set item.index by its position on the list
 const orderList = (items) => {
-	items.map((item, key) => {
+	return items.map((item, key) => {
 		item.index = key
+		return item
 	})
-
-	return items
 }
 
 // a little function to help us with reordering the result
